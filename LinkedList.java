@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 public class LinkedList {
     Node head;
 
@@ -181,6 +183,26 @@ public class LinkedList {
         second.next = second.next.next;
     }
 
+    public Node mergeKLists(Node[] nodes) {
+        PriorityQueue<Node> queue = new PriorityQueue<>((a, b) -> a.data - b.data);
+        Node dummy = new Node(-1); // -1 -> 0 -> 1 ->2 ->3
+        Node current = dummy;
+
+        for (Node node : nodes) {
+            if (node != null) {
+                queue.add(node);
+            }
+        }
+        while (!queue.isEmpty()) {
+            current.next = queue.poll();
+            current = current.next;
+            if (current.next != null) {
+                queue.add(current.next);
+            }
+        }
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
         list.append(1);
@@ -194,6 +216,18 @@ public class LinkedList {
         list.printList();
         list.removeNthFromEnd(null);
         list.printList();
+
+
+//        Demo1 demo1 = new Demo1();
+//        Node l1 = new Node(1);
+//        l1.next = new Node(3);
+//        Node l2 = new Node(2);
+//        l2.next = new Node(5);
+//        Node l3 = new Node(0);
+//        l3.next = new Node(4);
+//        Node[] nodes = {l1, l2, l3};
+//
+//        Node head = demo1.mergeKLists(nodes);
     }
 }
 
